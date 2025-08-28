@@ -11,7 +11,7 @@ int lstIsEmpty(list_t* list)
 {
     int retcode = 0;
     if (NULL != list){
-    retcode = (list->nodecount == 0);
+    retcode = (0 == list->nodecount );
     }
     return retcode;
 }
