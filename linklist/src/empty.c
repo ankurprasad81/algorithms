@@ -4,14 +4,10 @@
 
 /***********************************
 @brief checks if the list is empty
-@param list list 
+@param list: list
 @return retuns 1 if list empty, else 0
-************************************/ 
-int lstIsEmpty(list_t* list)
+************************************/
+int lstIsEmpty(list_t *list)
 {
-    int retcode = 0;
-    if (NULL != list){
-    retcode = (0 == list->nodecount );
-    }
-    return retcode;
+    return (NULL != list) ? (0 == list->nodecount) : 0;
 }

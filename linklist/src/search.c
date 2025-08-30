@@ -8,30 +8,19 @@
 @return returns the index where noe is located
 
 ********************************************************/
-
 int lstFind(list_t *list, node_t *node)
 {
-    int retcode = 0;
-    if ((NULL != list) && (NULL != node))
-    {
-        unsigned int count = 0;
-        list_t *tmp = list;
-        node_t *tmpNode = NULL;
-        /* loop though the list to find the node index  */
-        for (tmpNode = lstFirst(tmp); tmpNode != lstLast(tmp); tmpNode = lstNext(tmp))
-        {
-            if (tmpNode == node)
-            {
-                retcode = count;
-                break;
-            }
-            else
-            {
-                count++;
-            }
-        }
-    }
-    return retcode;
+    int count = -1;
+    if ((NULL == list) || (NULL == node))
+        return count;
+
+    count = 0;
+    node_t *tmpNode = NULL;
+   for(tmpNode = lstFirst(list); (NULL != tmpNode) && (tmpNode != node); tmpNode = lstNext(tmpNode))
+   {
+        count++;
+   }
+    return (count == list->nodecount)? -1 : count;
 }
 
 /********************************************************
@@ -42,10 +31,7 @@ int lstFind(list_t *list, node_t *node)
 ********************************************************/
 node_t *lstFirst(list_t *list)
 {
-    node_t *node = NULL;
-    if (!lstIsEmpty(list))
-        node = list->head;
-    return node;
+    return (!lstIsEmpty(list)) ? list->head : NULL;
 }
 
 /********************************************************
@@ -56,10 +42,7 @@ node_t *lstFirst(list_t *list)
 ********************************************************/
 node_t *lstLast(list_t *list)
 {
-    node_t *node = NULL;
-    if (!lstIsEmpty(list))
-        node = list->tail;
-    return node;
+    return (!lstIsEmpty(list)) ? list->tail : NULL;
 }
 
 /********************************************************
@@ -71,13 +54,7 @@ node_t *lstLast(list_t *list)
 ********************************************************/
 node_t *lstPrevious(node_t *node)
 {
-    node_t *tmp = NULL;
-
-    if ((NULL != node) && (NULL != node->prev))
-    {
-        tmp = node->prev;
-    }
-    return tmp;
+    return ((NULL != node) && (NULL != node->prev)) ? node->prev : NULL;
 }
 
 /********************************************************
@@ -89,13 +66,7 @@ node_t *lstPrevious(node_t *node)
 ********************************************************/
 node_t *lstNext(node_t *node)
 {
-    node_t *tmp = NULL;
-
-    if ((NULL != node) && (NULL != node->next))
-    {
-        tmp = node->next;
-    }
-    return tmp;
+    return ((NULL != node) && (NULL != node->next)) ? node->next : NULL;
 }
 
 /********************************************************
@@ -110,10 +81,23 @@ node_t *lstNext(node_t *node)
 node_t *lstGet(list_t *list)
 {
     node_t *tmpNode = NULL;
+    /* check if list empty */
     if (!lstIsEmpty(list))
     {
-        
-        
+        tmpNode = lstFirst(list);
+        /* if single node is available */
+        if ((NULL!=tmpNode) && (NULL == tmpNode->prev) && (NULL == tmpNode->next))
+        {
+            list->head = list->tail = NULL;
+        }
+        else
+        {
+            if(NULL != lstNext(tmpNode))
+                list->head = tmpNode->next;
+            tmpNode->next->prev = NULL;
+            /* if the head and tail become same*/
+        }
+        list->nodecount--;
     }
     return tmpNode;
 }

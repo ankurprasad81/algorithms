@@ -12,31 +12,26 @@
 int lstAddTail(list_t *list, node_t *node)
 {
     int retcode = EXIT_FAILURE;
-    if (( NULL!= list) && (NULL != node))
+    if ((NULL != list) && (NULL != node))
     {
-    list_t *tmp = list;
-
-    /* get current node count */
-    unsigned int prevCnt = lstCount(tmp);
-    
-    /* if list is empty, head and tail points to same data */
-    if (0 == prevCnt)
-    {
-        tmp->head = tmp->tail = node;
-        /* update the next pointer of data to point to NULL */
-        node->next = NULL;
-        node->prev = NULL;
+        /* if list is empty, head and tail points to same data */
+        if (lstIsEmpty(list))
+        {
+            list->head = list->tail = node;
+            /* update the next pointer of data to point to NULL */
+            node->next = NULL;
+            node->prev = NULL;
+        }
+        else
+        {
+            list->tail->next = node;
+            node->prev = list->tail;
+            node->next = NULL;
+            list->tail = node;
+        }
+        /* increment the nodecount */
+        list->nodecount++;
+        retcode = EXIT_SUCCESS;
     }
-    else
-    {
-        tmp->tail->next = node;
-        node->prev = tmp->tail;
-        node->next = NULL;
-        tmp->tail = node;
-    }
-    /* increment the nodecount */
-    tmp->nodecount++;
-    retcode = (lstCount(tmp) == (prevCnt + 1)) ? EXIT_SUCCESS : EXIT_FAILURE;
-}
     return retcode;
 }

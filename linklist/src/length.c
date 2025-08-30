@@ -8,12 +8,7 @@
 @return returns elements in the list
 if list contains elements, else 0
 ************************************/ 
-int lstCount(const list_t* const list)
+int lstCount(list_t* list)
 {
-    int retcode = 0;
-    if (!lstIsEmpty(list))
-    {
-        retcode = list->nodecount;
-    }
-    return retcode;
+    return (!lstIsEmpty(list)) ? list->nodecount: 0 ;
 }

@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+#define FREE(x) do {if (NULL != (x)) { free(x) ; (x) = NULL;}}while(0);
 typedef struct list_ list_t;
 typedef struct node_ node_t;
 
@@ -39,11 +40,11 @@ extern int lstAddHead(list_t *list, node_t *node);
 /* function to add the node to the end of list */
 extern int lstAddTail(list_t* list, node_t* node);
 /* function to insert the node after the previous node */
-extern int lstInsertAfter(list_t* list, node_t* prev, node_t* node);
+extern int lstInsertAfter(list_t* list, node_t* current, node_t* node);
 /* function to insert the node before the previous node */
-extern int lstInsertBefore(list_t* list, node_t* prev, node_t* node);
+extern int lstInsertBefore(list_t* list, node_t* current, node_t* node);
 /* function to return the nodes in the list */
-extern int lstCount(const list_t* const list);
+extern int lstCount(list_t* list);
 /* function to find the node in the list */
 extern int lstFind(list_t* list, node_t* node);
 /* function to return the first node from list */
@@ -61,7 +62,7 @@ extern int lstDelete(list_t* list, node_t* node);
 /* function to delete the complete list */
 extern int lstFree(list_t* list);
 /* function to display the list */
-extern int lstDisplay(list_t* list);
+extern void lstDisplay(list_t* list);
 
 #ifdef __cplusplus
 }

@@ -12,33 +12,31 @@
 int lstAddHead(list_t *list, node_t *node)
 {
     int retcode = EXIT_FAILURE;
-    if ((NULL != node) && (NULL != list))
-    {
-        list_t *tmp = list;
 
-        /* get current node count */
-        unsigned int prevCnt = lstCount(tmp);
+    /* check for valid inputs */
+    if ((NULL != list) && (NULL != node))
+    {
 
         /* if list is empty, head and tail points to same data */
-        if (0 == prevCnt)
+        if (lstIsEmpty(list))
         {
-            tmp->head = tmp->tail = node;
+            list->head = list->tail = node;
             /* update the next pointer of data to point to NULL */
             node->next = NULL;
             node->prev = NULL;
         }
+        /* list not empty */
         else
         {
-            node->next = tmp->head;
-            tmp->head = node;
+            node->next = list->head;
             node->prev = NULL;
+            list->head->prev = node;
+            list->head = node;
         }
 
         /* increment the nodecount */
-        tmp->nodecount++;
-
-        retcode = (lstCount(tmp) == (prevCnt + 1)) ? EXIT_SUCCESS : EXIT_FAILURE;
-            
+        list->nodecount++;
+        retcode = EXIT_SUCCESS;
     }
 
     return retcode;
@@ -47,82 +45,65 @@ int lstAddHead(list_t *list, node_t *node)
 /********************************************************
 @brief Inserts the data in the list .
 @param list: list where to insert
-@param prev: Node to insert after
+@param current: Node to insert after
 @param node: Node to insert.
 @return EXIT_FAILURE when insertion fails fails
         EXIT_SUCCESS when insertion is successful
 ********************************************************/
-int lstInsertAfter(list_t *list, node_t *prev, node_t *node)
+int lstInsertAfter(list_t *list, node_t *current, node_t *node)
 {
-    int retcode = EXIT_FAILURE;
+    /* ensure input is valid */
+    if ((NULL == list) || (NULL == current) || (NULL == node))
+        return EXIT_FAILURE;
 
-    if ((NULL !=list) && (NULL != prev) && (NULL != node))
+    /* ensure node is not linked anywhere */
+    if (node->next != NULL || node->prev != NULL)
+        return EXIT_FAILURE;
+
+    /* check of empty list is not required as the current is not NULL */
+    if (current == list->tail)
     {
-        list_t *tmp = list;
-
-        /*get current node count */
-        unsigned int prvCnt = lstCount(tmp);
-
-        /* check if list is empty */
-        if (0 == prvCnt)
-        {
-            /* add to head if list is empty */
-            retcode = lstAddHead(tmp, node);
-        }
-        else if (prev == tmp->tail)
-        {
-            /* add to tail if prev is tail node */
-            retcode = lstAddTail(list, node);
-        }
-        else
-        {
-            /* insert the node after prev node */
-            node_t *tmpNode = prev->next;
-            prev->next = node;
-            node->prev = prev;
-            node->next = tmpNode;
-            tmpNode->prev = node;
-            tmp->nodecount++;
-            retcode = (lstCount(tmp) == prvCnt + 1) ? EXIT_SUCCESS : EXIT_FAILURE;
-        }
+        current->next = node;
+        node->prev = current;
+        node->next = NULL;
+        list->tail = node;
     }
-    return retcode;
+    else if (current == list->head)
+    {
+        current->next = node;
+        node->prev = current;
+        node->next= NULL;
+
+    }
+    else
+    {
+        /* insert the node after current node */
+        node_t *tmpNode = current->next;
+        current->next = node;
+        node->prev = current;
+        node->next = tmpNode;
+        tmpNode->prev = node; // TODO: null pointer dereference when signle node is available in list
+    }
+    list->nodecount++;
+    return EXIT_SUCCESS;
 }
 
 /********************************************************
 @brief Inserts the data in the list .
 @param list: list where to insert
-@param prev: Node to insert before
+@param current: Node to insert before
 @param node: Node to insert.
 @return EXIT_FAILURE when insertion fails fails
         EXIT_SUCCESS when insertion is successful
 *********************************************************/
-int lstInsertBefore(list_t *list, node_t *prev, node_t *node)
+int lstInsertBefore(list_t *list, node_t *current, node_t *node)
 {
-    int retcode = EXIT_FAILURE;
-    if((NULL != list) && (NULL != node) && (NULL != node))
-    {
-        
-        list_t* tmp = list;
+    /* ensure input is valid */
+    if ((NULL == list) || (NULL == current) || (NULL == node))
+        return EXIT_FAILURE;
 
-        /* get the current node count */
-        unsigned int prvCnt  = lstCount(tmp);
+    /* ensure node is not linked anywhere */
+    if (node->next != NULL || node->prev != NULL)
+        return EXIT_FAILURE;
 
-        if( 0 == prvCnt)
-        {
-            /* add to head */
-            lstAddHead(tmp, node);
-        }
-        else
-        {
-            node_t* tmpNode = prev->prev;
-            tmpNode->next = node;
-            node->prev = tmpNode;
-            node->next = prev;
-            prev->prev = node;
-            tmp->nodecount++;
-            retcode = (lstCount(tmp) == prvCnt + 1) ? EXIT_SUCCESS : EXIT_FAILURE;
-        }
-    }
-    return retcode;
 }
