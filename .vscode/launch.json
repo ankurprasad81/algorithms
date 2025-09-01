@@ -1,15 +1,20 @@
 {
     "configurations": [
+
         {
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "enter program name, for example ${workspaceFolder}/a.exe",
+            "program": "${workspaceRoot}/linklist/apps/linklist.exe",
+            "symbolSearchPath": "${workspaceRoot}/linklist/apps/linklist.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${fileDirnameBasename}/apps",
             "environment": [],
-            "console": "externalTerminal"
+            "console": "integratedTerminal"
+            
+            
+            
         }
     ],
     "version": "2.0.0"

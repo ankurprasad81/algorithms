@@ -5,18 +5,19 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include <stdio.h>
 
-#define FREE(x) do {if (NULL != (x)) { free(x) ; (x) = NULL;}}while(0);
+#define FREE(x) do {if (NULL != (x)) { (x)->next=NULL; (x)->prev = NULL; free(x) ; (x) = NULL;}}while(0);
+#define PARAM_UNUSED(x) (void)(x)
+
 typedef struct list_ list_t;
 typedef struct node_ node_t;
-
+typedef struct mydata_ mydata_t;
 
 /* list data structure */
 struct node_ {
-    void * data; /* data to include in list */
     struct node_* next; /* next data in the list */
     struct node_* prev; /* prev data in the list */
-    unsigned int datatype; /* type f data included in the list */
     list_t* list; /* list containing the data */ 
 };
 
@@ -27,7 +28,11 @@ struct list_ {
     unsigned int nodecount;
 };
 
-
+struct mydata_
+{
+    node_t node;
+    int data;
+};
 
 /* supported operations */
 

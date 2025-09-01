@@ -12,6 +12,7 @@
 int lstDelete(list_t *list, node_t *node)
 {
     int retcode = EXIT_FAILURE;
+    
     if ((NULL != list) && (NULL != node) && !lstIsEmpty(list))
     {
         /* if node is the only node in list */
@@ -31,7 +32,7 @@ int lstDelete(list_t *list, node_t *node)
             list->tail = node->prev;
             node->prev->next = NULL;
         }
-
+        printf("lsDelete:%d\n", ((mydata_t*)node)->data);
         FREE(node);
         /* decrement the node count */
         list->nodecount--;
@@ -48,15 +49,17 @@ int lstDelete(list_t *list, node_t *node)
 ********************************************************/
 int lstFree(list_t *list)
 {
-    int retcode = EXIT_FAILURE;
-    if (NULL != list)
+   /* delete when list is not empty*/
+    if (!lstIsEmpty(list))
     {
         node_t *tmpNode = NULL;
-        /* loop through all the nodes and starting from head and starts deleting */
-        for (tmpNode = lstFirst(list); tmpNode != NULL; tmpNode = lstNext(tmpNode))
+        while((tmpNode=lstGet(list)) != NULL)
         {
-            retcode = lstDelete(list, tmpNode);
+            printf("lstFree:%d\n", ((mydata_t*)tmpNode)->data);
+            FREE(tmpNode);
         }
+        /*once teh list is deleted , initialize pointers to their default values */
+        lstInit(list);
     }
-    return retcode;
+    return EXIT_SUCCESS;
 }

@@ -61,19 +61,9 @@ int lstInsertAfter(list_t *list, node_t *current, node_t *node)
         return EXIT_FAILURE;
 
     /* check of empty list is not required as the current is not NULL */
-    if (current == list->tail)
+    if (NULL == lstPrevious(current) || NULL == lstNext(current))
     {
-        current->next = node;
-        node->prev = current;
-        node->next = NULL;
-        list->tail = node;
-    }
-    else if (current == list->head)
-    {
-        current->next = node;
-        node->prev = current;
-        node->next= NULL;
-
+        lstAddTail(list,node);
     }
     else
     {
@@ -105,5 +95,20 @@ int lstInsertBefore(list_t *list, node_t *current, node_t *node)
     /* ensure node is not linked anywhere */
     if (node->next != NULL || node->prev != NULL)
         return EXIT_FAILURE;
-
+    /* if no node before this node */    
+    if(NULL == lstPrevious(current))
+    {
+        lstAddHead(list ,node);
+    }
+    else
+    {
+        node_t* tmpNode = current->prev;
+        tmpNode->next = node;
+        node->prev = tmpNode;
+        node->next = current;
+        current->prev=node;
+        
+    }
+    list->nodecount++;
+    return EXIT_SUCCESS;
 }

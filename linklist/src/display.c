@@ -1,6 +1,5 @@
 #include "linklist.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include "assert.h"
 
 /********************************************************
@@ -10,23 +9,18 @@
 ********************************************************/
 void lstDisplay(list_t *list)
 {
-
-    list_t *tmp = list;
-    unsigned int count = 0;
-    node_t *node = list->head;
-    while (NULL != node)
+    node_t *node = NULL;
+    for( node = lstFirst(list); node!=NULL; node=lstNext(node))
     {
-        if (node->next != list->tail)
+        if (node != list->tail)
         {
-            printf("%d-->\n", node->data);
+            printf("%d-->", ((mydata_t*)node)->data);
         }
         else
         {
-            printf("%d\n", *(int *)node->data);
+            printf("%d\n", ((mydata_t*)node)->data);
         }
-        node = node->next;
-        count++;
     }
-    printf("nodecount:%d", list->nodecount);
+    printf("nodecount:%d\n", list->nodecount);
     /* to check that the list is travered fully */
 }

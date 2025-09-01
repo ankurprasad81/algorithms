@@ -1,6 +1,7 @@
 #include "linklist.h"
 #include <stdlib.h>
 #include "assert.h"
+
 /********************************************************
 @brief searches the data in the list .
 @param list: list where to search
@@ -10,17 +11,20 @@
 ********************************************************/
 int lstFind(list_t *list, node_t *node)
 {
-    int count = -1;
+    int count = -2;
     if ((NULL == list) || (NULL == node))
         return count;
 
     count = 0;
     node_t *tmpNode = NULL;
-   for(tmpNode = lstFirst(list); (NULL != tmpNode) && (tmpNode != node); tmpNode = lstNext(tmpNode))
-   {
-        count++;
-   }
-    return (count == list->nodecount)? -1 : count;
+    for (tmpNode = lstFirst(list); (NULL != tmpNode); tmpNode = lstNext(tmpNode))
+    {   
+        if (((mydata_t*)tmpNode)->data != ((mydata_t*)node)->data)
+            count++;
+        else
+            break;
+    }
+    return (count == (int)list->nodecount) ? -1 : count;
 }
 
 /********************************************************
@@ -86,13 +90,13 @@ node_t *lstGet(list_t *list)
     {
         tmpNode = lstFirst(list);
         /* if single node is available */
-        if ((NULL!=tmpNode) && (NULL == tmpNode->prev) && (NULL == tmpNode->next))
+        if ((NULL != tmpNode) && (NULL == tmpNode->prev) && (NULL == tmpNode->next))
         {
             list->head = list->tail = NULL;
         }
         else
         {
-            if(NULL != lstNext(tmpNode))
+            if (NULL != lstNext(tmpNode))
                 list->head = tmpNode->next;
             tmpNode->next->prev = NULL;
             /* if the head and tail become same*/
