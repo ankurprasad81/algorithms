@@ -16,22 +16,28 @@ int lstDelete(list_t *list, node_t *node)
     if ((NULL != list) && (NULL != node) && !lstIsEmpty(list))
     {
         /* if node is the only node in list */
-        if ((NULL == lstPrevious(node)) && (NULL == lstNext(node)))
+        if ((NULL == node->prev) && (NULL == node->next))
         {
             list->head = list->tail = NULL;
         }
-        /* head node  */
-        else if (NULL == lstPrevious(node))
+        /* head node  list->head == node */
+        else if (NULL == node->prev))
         {
             list->head = node->next;
             node->next->prev = NULL;
         }
         /* tail node */
-        else if (NULL == lstNext(node))
+        else if (NULL == node->next)
         {
             list->tail = node->prev;
             node->prev->next = NULL;
         }
+        else
+        {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+        }
+
         printf("lsDelete:%d\n", ((mydata_t*)node)->data);
         FREE(node);
         /* decrement the node count */

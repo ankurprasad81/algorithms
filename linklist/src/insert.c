@@ -36,6 +36,8 @@ int lstAddHead(list_t *list, node_t *node)
 
         /* increment the nodecount */
         list->nodecount++;
+        /*keep a track of the list where node is addedd */
+        node->list = list;
         retcode = EXIT_SUCCESS;
     }
 
@@ -75,6 +77,8 @@ int lstInsertAfter(list_t *list, node_t *current, node_t *node)
         tmpNode->prev = node; // TODO: null pointer dereference when signle node is available in list
     }
     list->nodecount++;
+     /*keep a track of the list where node is addedd */
+    node->list = list;
     return EXIT_SUCCESS;
 }
 
@@ -110,5 +114,7 @@ int lstInsertBefore(list_t *list, node_t *current, node_t *node)
         
     }
     list->nodecount++;
+    /*keep a track of the list where node is addedd */
+    node->list = list;
     return EXIT_SUCCESS;
 }

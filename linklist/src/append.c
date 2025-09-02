@@ -31,6 +31,8 @@ int lstAddTail(list_t *list, node_t *node)
         }
         /* increment the nodecount */
         list->nodecount++;
+        /* keep a track of the node added to the list */
+        node->list = list;
         retcode = EXIT_SUCCESS;
     }
     return retcode;
