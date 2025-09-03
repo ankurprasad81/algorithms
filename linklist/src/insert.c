@@ -62,8 +62,10 @@ int lstInsertAfter(list_t *list, node_t *current, node_t *node)
     if (node->next != NULL || node->prev != NULL)
         return EXIT_FAILURE;
 
-    /* check of empty list is not required as the current is not NULL */
-    if (NULL == lstPrevious(current) || NULL == lstNext(current))
+    /* check of empty list is not required as the current is not NULL 
+    check of single node in the list
+    check of last node  */
+    if ((NULL == lstPrevious(current) && NULL == lstNext(current)) || (NULL == lstNext(current)))
     {
         lstAddTail(list,node);
     }
@@ -75,8 +77,8 @@ int lstInsertAfter(list_t *list, node_t *current, node_t *node)
         node->prev = current;
         node->next = tmpNode;
         tmpNode->prev = node; // TODO: null pointer dereference when signle node is available in list
+        list->nodecount++;
     }
-    list->nodecount++;
      /*keep a track of the list where node is addedd */
     node->list = list;
     return EXIT_SUCCESS;
@@ -111,9 +113,9 @@ int lstInsertBefore(list_t *list, node_t *current, node_t *node)
         node->prev = tmpNode;
         node->next = current;
         current->prev=node;
-        
+        list->nodecount++;
     }
-    list->nodecount++;
+    
     /*keep a track of the list where node is addedd */
     node->list = list;
     return EXIT_SUCCESS;

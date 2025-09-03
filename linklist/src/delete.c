@@ -21,7 +21,7 @@ int lstDelete(list_t *list, node_t *node)
             list->head = list->tail = NULL;
         }
         /* head node  list->head == node */
-        else if (NULL == node->prev))
+        else if (NULL == node->prev)
         {
             list->head = node->next;
             node->next->prev = NULL;

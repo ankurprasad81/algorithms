@@ -6,7 +6,7 @@ BUILD_DIR := objs
 BUILD_FILES := $(patsubst $(SRC)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
 APP := apps
 GCC := gcc
-EXTRAFLAGS := -g -Wall -Wextra
+EXTRAFLAGS := -g -O0 -Wall -Wextra
 RMDIR := rmdir /S /Q
 
 
