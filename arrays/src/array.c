@@ -1,51 +1,46 @@
 #include <stdio.h>
-#include <string.h>
 
 
-/**
- * @brief to rotate the array data to left
- * @param string data to rotate
- * @param counts number of rotations
- */
-void rotateLeft(char string[], int counts)
+void rotateLeft(int arr[], int length, int counts)
 {
     int i = counts;
-    int length= strlen(string);
+    
     while(i-- > 0)
     {
         int j;
-        int temp= string[0];
+        int temp= arr[0];
         for(j = 0; j < length; j++)
-        string[j] = string[j+1];
-        string[length-1]=temp;
+        arr[j] = arr[j+1];
+        arr[length-1]=temp;
     }
     
 }
-/**
- * @brief to rotate the array data to left
- * @param string data to rotate
- * @param counts number of rotations
- */
-void rotateRight(char string[], int counts)
+void rotateRight(int arr[], int length, int counts)
 {
     int i = counts;
-    int length= strlen(string);
     while(i-- > 0)
     {
         int j;
-        int temp= string[length-1];
+        int temp= arr[length-1];
         for(j = length-1; j >=0; j--)
-        string[j] = string[j-1];
-        string[0]=temp;
+        arr[j] = arr[j-1];
+        arr[0]=temp;
     }
     
+}
+void Display(int A[], int size )
+{
+    for ( int i =0; i < size; i++)
+    printf("%d ", A[i]);
+    printf("\n");
 }
 int main()
 {
     
-    char FullName[]="AnkurPrasad";
-    rotateLeft(FullName,5);
-    rotateRight(FullName, 6);
-    printf("%s\n", FullName);
+    int A[]={1,4,7,10,2,3,4,5};
+    int length = sizeof(A)/sizeof(A[0]);
+    rotateLeft(A,length,5);
+    rotateRight(A,length, 6);
+    Display(A, length);
     return 0;
 }
