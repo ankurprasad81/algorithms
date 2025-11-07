@@ -12,14 +12,13 @@
 int lstFind(list_t *list, node_t *node)
 {
     int count = -2;
-    if ((NULL == list) || (NULL == node))
+    if ((NULL == list) || (NULL == node) || (lstIsEmpty(list)))
         return count;
 
     count = 0;
     node_t *tmpNode = NULL;
     for (tmpNode = lstFirst(list); (NULL != tmpNode); tmpNode = lstNext(tmpNode))
     {   
-        printf("lstFind:%d\n",((mydata_t*)node)->data);
         if (((mydata_t*)tmpNode)->data != ((mydata_t*)node)->data)
             ++count;
         else

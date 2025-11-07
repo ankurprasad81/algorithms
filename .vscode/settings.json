@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "linklist.h": "c"
+        "linklist.h": "c",
+        "circularlinklist.h": "c"
     },
     "makefile.makePath": "mingw32-make.exe",
     "makefile.makefilePath": ""

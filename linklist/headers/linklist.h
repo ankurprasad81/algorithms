@@ -37,7 +37,7 @@ struct mydata_
 /* supported operations */
 
 /* function to check if list is empty */
-extern int lstIsEmpty(list_t* list);
+extern int lstIsEmpty(list_t* list); /* empty function */
 /* function to initialize the list */
 extern int lstInit(list_t* list);
 /* function to add the node to head of the list */
